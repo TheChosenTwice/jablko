@@ -39,7 +39,9 @@ class HomeController extends BaseController
      */
     public function index(Request $request): Response
     {
-        return $this->html();
+        // Render the homePage view instead of the default 'index' view so that
+        // visiting the root URL (no params) shows the `homePage.view.php`.
+        return $this->html([], 'homePage');
     }
 
     /**
@@ -51,6 +53,14 @@ class HomeController extends BaseController
      * @return Response The response object containing the rendered HTML for the contact page.
      */
     public function contact(Request $request): Response
+    {
+        return $this->html();
+    }
+
+    /**
+     * Zobrazi uvodnu stranku.
+     */
+    public function homePage(): Response
     {
         return $this->html();
     }

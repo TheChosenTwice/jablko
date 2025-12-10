@@ -1,0 +1,72 @@
+/* public/css/custom.css - custom styling (10+ rules) */
+:root{
+  --accent: #2b8aef;
+  --muted: #6c757d;
+  --hero-height: 120px; /* approximate header/hero height used to calculate scroll areas */
+  --bg: #fafafa;
+}
+
+/* 1. Base body */
+body{ background: var(--bg); color:#222; font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial; }
+
+/* 2. Container helper */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+/* 3. Hero styling */
+.home-hero{ background: linear-gradient(90deg,#f06292 0%, #f06277 100%); color:#fff; padding:28px; border-radius:8px; position:sticky; top:0; z-index:100; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+.home-hero h2{ margin:0; font-size:2rem; font-weight:700; }
+
+/* 4. Search box custom */
+.search-box input{ border-radius:18px; padding:14px 18px; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+
+/* 5. Auth links */
+.auth-links .btn-link{ color:#0d6efd; }
+.auth-links .btn-primary{ background:var(--accent); border:none; }
+
+/* 6. Chips (ingredient tags) */
+.chips .chip{ display:inline-block; background:#fff; border:1px solid #eee; padding:8px 12px; border-radius:12px; margin:4px; cursor:pointer; transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease; }
+/* hover: light green */
+.chips .chip:hover, .chips .chip.chip-hover { background: #e6f7ea; border-color: #cfead6; color: #0b6623; }
+/* selected: strong green */
+.chips .chip.selected { background: #1e8e3e; border-color: #176b31; color: #fff; }
+/* keyboard focus look */
+.chips .chip:focus { outline: 2px solid rgba(30,142,62,0.25); }
+
+/* 7. Recipe cards */
+.recipe-card{ display:flex; gap:16px; align-items:center; padding:14px; border-bottom:1px solid #f0f0f0; }
+.recipe-thumb{ width:120px; height:80px; border-radius:8px; background:#f6f6f6; }
+
+/* 8. Password meter styles (matches JS) */
+.pw-meter{ height:8px; background:#eee; border-radius:6px; overflow:hidden; }
+.pw-meter .pw-fill{ width:0%; height:100%; transition:width .18s ease; }
+
+/* 9. Utility helpers */
+.text-muted{ color:var(--muted); }
+.btn-sm{ padding:.25rem .5rem; border-radius:6px; }
+
+/* 10. Responsive tweaks */
+@media (max-width:768px){ .home-hero{ padding:18px; } .search-box{ width:100% !important; } .recipe-thumb{ width:84px;height:56px; } }
+
+/* 11. Small accessibility focus */
+:focus{ outline:3px solid rgba(43,138,239,0.12); outline-offset:2px; }
+
+/* custom scrollbars and scrollable areas */
+.sidebar { max-height: calc(100vh - var(--hero-height)); overflow: auto; padding-right: 8px; }
+.main-scroll { max-height: calc(100vh - var(--hero-height)); overflow: auto; padding-right: 8px; }
+.recipes { /* let recipes flow inside main-scroll; avoid separate scroll */ }
+
+/* WebKit scrollbar */
+.sidebar::-webkit-scrollbar, .main-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+.sidebar::-webkit-scrollbar-track, .main-scroll::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb, .main-scroll::-webkit-scrollbar-thumb {
+  background: #1e8e3e; /* strong green */
+  border-radius: 10px;
+  border: 2px solid rgba(0,0,0,0.03);
+}
+.sidebar::-webkit-scrollbar-thumb:hover, .main-scroll::-webkit-scrollbar-thumb:hover { background: #166b31; }
+
+/* Firefox scrollbar */
+.sidebar, .main-scroll { scrollbar-width: thin; scrollbar-color: #1e8e3e transparent; }
+
+/* Prevent body from scrolling when wheel is over these containers in some browsers */
+.sidebar, .main-scroll { overscroll-behavior: contain; }

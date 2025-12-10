@@ -46,15 +46,82 @@ class AuthController extends BaseController
     public function login(Request $request): Response
     {
         $logged = null;
+        $errors = [];
         if ($request->hasValue('submit')) {
-            $logged = $this->app->getAuthenticator()->login($request->value('username'), $request->value('password'));
-            if ($logged) {
-                return $this->redirect($this->url("admin.index"));
+            // basic server-side validation
+            $username = trim($request->value('username'));
+            $password = $request->value('password');
+            if ($username === '') $errors[] = 'Username/email is required';
+            if ($password === '') $errors[] = 'Password is required';
+
+            if (empty($errors)) {
+                $logged = $this->app->getAuthenticator()->login($username, $password);
+                if ($logged) {
+                    return $this->redirect($this->url("admin.index"));
+                }
+            }
+        }
+        $message = null;
+        if (!empty($errors)) { $message = implode('<br/>', $errors); }
+        elseif ($logged === false) { $message = 'Bad username or password'; }
+        return $this->html(compact('message'));
+    }
+
+    /**
+     * Register a new user.
+     */
+    public function register(Request $request): Response
+    {
+        $errors = [];
+        if ($request->hasValue('submit')) {
+            $u = trim($request->value('username'));
+            $e = trim($request->value('email'));
+            $p = $request->value('password');
+            $p2 = $request->value('password2');
+
+            if ($u === '') $errors[] = 'Username is required';
+            if ($e === '') $errors[] = 'Email is required';
+            if ($p === '') $errors[] = 'Password is required';
+            if ($p !== $p2) $errors[] = 'Passwords do not match';
+
+            // server-side format validation
+            if (!preg_match('/^[A-Za-z0-9_\-]{3,50}$/', $u)) {
+                $errors[] = 'Username must be 3-50 chars: letters, numbers, _ or -';
+            }
+            if (!filter_var($e, FILTER_VALIDATE_EMAIL)) {
+                $errors[] = 'Invalid email address';
+            }
+            if (strlen($p) < 8) {
+                $errors[] = 'Password must be at least 8 characters';
+            }
+
+            // check uniqueness
+            if (empty($errors)) {
+                try {
+                    $existing = \App\Models\User::getAll('username = ? OR email = ?', [$u, $e]);
+                    if (count($existing) > 0) {
+                        $errors[] = 'User with that username or email already exists';
+                    }
+                } catch (\Exception $ex) {
+                    $errors[] = 'Database error: ' . $ex->getMessage();
+                }
+            }
+
+            if (empty($errors)) {
+                $user = new \App\Models\User();
+                $user->username = $u;
+                $user->email = $e;
+                $user->setPassword($p);
+                try {
+                    $user->save();
+                    return $this->redirect($this->url('auth.login'));
+                } catch (\Exception $ex) {
+                    $errors[] = 'Failed to create user: ' . $ex->getMessage();
+                }
             }
         }
 
-        $message = $logged === false ? 'Bad username or password' : null;
-        return $this->html(compact("message"));
+        return $this->html(compact('errors'));
     }
 
     /**
@@ -69,5 +136,25 @@ class AuthController extends BaseController
     {
         $this->app->getAuthenticator()->logout();
         return $this->html();
+    }
+
+    /**
+     * AJAX endpoint to check username/email availability.
+     */
+    public function check(Request $request)
+    {
+        $field = $request->value('field');
+        $value = trim($request->value('value'));
+        $res = ['available' => false];
+        if ($field === 'username' && $value !== '') {
+            $count = \App\Models\User::getCount('username = ?', [$value]);
+            $res['available'] = $count === 0;
+        } elseif ($field === 'email' && $value !== '') {
+            $count = \App\Models\User::getCount('email = ?', [$value]);
+            $res['available'] = $count === 0;
+        }
+        header('Content-Type: application/json');
+        echo json_encode($res);
+        exit;
     }
 }

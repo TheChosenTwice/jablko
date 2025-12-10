@@ -5,3 +5,78 @@
 .navbar-brand img {
     width: 50px;
 }
+
+/* === AI Generated Custom helper and theme variables (1) === */
+:root {
+    --sk-accent: #f04b74;
+    --sk-accent-dark: #d43b5c;
+    --sk-muted: #6c757d;
+}
+
+/* (2) Accent utility */
+.sk-accent { color: var(--sk-accent) !important; }
+
+/* (3) Rounded pill chip used for ingredient/tags */
+.sk-chip { display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:#fafafa; border:1px solid #eee; color:#444; font-size:0.95rem; }
+
+/* (4) Soft elevation for cards */
+.sk-card-elevated { box-shadow: 0 6px 18px rgba(20,20,20,0.06); border-radius:10px; }
+
+/* (5) Make large hero search inputs look smoother */
+.home-hero .search-box input { border-radius:14px; padding:14px 16px; }
+
+/* (6) Responsive grid helper for small card lists */
+.responsive-cols { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+
+/* (7) Muted link style (for sources) */
+.muted-link { color: var(--sk-muted); text-decoration: none; }
+.muted-link:hover { text-decoration: underline; }
+
+/* (8) Subtle hover lift for interactive chips */
+.sk-chip:hover { transform: translateY(-3px); transition: transform 120ms ease; box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
+
+/* (9) Small helper for absolute small icons or badges */
+.badge-small { padding:4px 6px; font-size:0.78rem; border-radius:6px; background:#fff; border:1px solid #eee; }
+
+/* (10) Accessibility helper (screen-reader only) */
+.sr-only { position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+/* === Styles moved from App/Views/Home/homePage.view.php === */
+.home-hero {
+    background: linear-gradient(180deg,#f04b74 0%, #f26b84 100%);
+    color: #fff;
+    padding: 20px 24px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+}
+.home-hero .search-box { max-width: 820px; }
+.home-layout { display: flex; gap: 24px; }
+.sidebar { width: 300px; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; }
+.chip { background:#f5f5f5; border-radius:8px; padding:8px 10px; color:#666; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03); }
+.chip.highlight { background:#dff0d8; color:#2b7a2b; }
+.tags { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px; }
+.tag { border:1px solid #cfe9c9; padding:6px 12px; border-radius:20px; color:#3f7b3f; background:#fff; }
+.recipes { display:flex; flex-direction:column; gap:14px; }
+.recipe-card { display:flex; gap:18px; background:#fff; border-radius:8px; padding:12px; align-items:center; box-shadow: 0 1px 0 rgba(0,0,0,0.06); cursor:pointer; }
+.recipe-card .btn { cursor: pointer; }
+.recipe-thumb { width:160px; height:90px; background:#eee; border-radius:6px; flex:0 0 160px; object-fit:cover; }
+.recipe-meta { flex:1; }
+.recipe-title { font-size:1.05rem; font-weight:600; margin-bottom:6px; }
+.recipe-source { color:#888; font-size:0.9rem; }
+.recipe-note { color:#d14; font-size:0.9rem; margin-top:6px; }
+@media (max-width: 900px) { .home-layout { flex-direction:column; } .sidebar { width:100%; } }
+
+/* Slide-over panel styles (moved) */
+.slide-overlay { position:fixed; inset:0; background: rgba(0,0,0,0.35); display:none; z-index:1050; }
+.slide-overlay.open { display:block; }
+.slide-panel { position:fixed; top:0; right:0; height:100vh; width:420px; transform:translateX(100%); transition:transform .28s ease; background:#fff; z-index:1060; overflow:auto; box-shadow:-8px 0 24px rgba(0,0,0,0.12); }
+.slide-panel.open { transform:translateX(0); }
+.panel-hero { height:260px; background-size:cover; background-position:center; position:relative; }
+.panel-close { position:absolute; top:12px; left:12px; background:#fff; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.12); cursor:pointer; }
+.panel-content { padding:18px; }
+.panel-title { font-size:1.1rem; font-weight:700; margin-bottom:6px; }
+.panel-source { color:#888; font-size:0.9rem; margin-bottom:12px; }
+.panel-ingredients { margin-top:10px; }
+.panel-cta { margin-top:16px; }
+.panel-small { font-size:0.9rem; color:#666; }

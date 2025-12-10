@@ -21,10 +21,15 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="<?= $link->asset('css/styl.css') ?>">
+    <link rel="stylesheet" href="<?= $link->asset('css/custom.css') ?>">
     <script src="<?= $link->asset('js/script.js') ?>"></script>
 </head>
 <body>
 <div class="container-fluid mt-3">
+    <div class="d-flex justify-content-end mb-2">
+        <a href="<?= $link->url('auth.login') ?>" class="btn btn-link">Login</a>
+        <a href="<?= $link->url('auth.register') ?>" class="btn btn-primary ms-2">Register</a>
+    </div>
     <div class="web-content">
         <?= $contentHTML ?>
     </div>

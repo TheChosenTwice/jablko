@@ -13,9 +13,9 @@ $view->setLayout('auth');
             <div class="card card-signin my-5">
                 <div class="card-body">
                     <h5 class="card-title text-center">Username</h5>
-                    <div class="text-center text-danger mb-3">
-                        <?= @$message ?>
-                    </div>
+                    <?php if (!empty($message)): ?>
+                        <div class="text-center text-danger mb-3"><?= $message ?></div>
+                    <?php endif; ?>
                     <form class="form-signin" method="post" action="<?= $link->url("login") ?>">
                         <div class="form-label-group mb-3">
                             <label for="username" class="form-label">Username</label>

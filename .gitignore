@@ -1,13 +1,7 @@
 # Ignore Docker environment files
-/docker/.env
-
-# Ignore other common sensitive files
-.env
-.env.*
 
 # Ignore OS and IDE files
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
-
